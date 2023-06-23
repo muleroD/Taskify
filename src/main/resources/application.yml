@@ -1,0 +1,13 @@
+# Configurações de conexão com o banco de dados PostgreSQL
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/task_manager
+        username: postgres
+        password: yS5$10d1OM*2
+        
+        # Opções adicionais de configuração (opcional)
+#spring:
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#  jpa.show-sql: true
