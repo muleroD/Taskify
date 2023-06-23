@@ -2,8 +2,8 @@
 spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/task_manager
-        username: postgres
-        password: yS5$10d1OM*2
+        username: taskify
+        password: yS510d1OM
         
         # Opções adicionais de configuração (opcional)
 #spring:
