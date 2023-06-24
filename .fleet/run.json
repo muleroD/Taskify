@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "type": "spring-boot",
+            "name": "Spring-boot configuration",
+            "mainClass": "br.com.mulero.taskify.TaskifyApplication",
+            "module": "taskify"
+        },
+        {
+            "type": "maven",
+            "name": "Maven configuration",
+            "tasks": [
+                "spring-boot:run"
+            ]
+        }
+    ]
+}
