@@ -1,5 +1,10 @@
 spring:
+  application:
+    name: taskify
+  jackson:
+    time-zone: America/Sao_Paulo
   datasource:
     url: jdbc:postgresql://localhost:5432/task_manager
     username: taskify
     password: yS510d1OM
+
