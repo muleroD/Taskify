@@ -1,0 +1,41 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    create_date: String!
+}
+
+type UserOutput {
+    id: ID!
+    name: String!
+    email: String!
+    create_date: String!
+}
+
+input UserInput {
+    name: String!
+    email: String!
+    password: String!
+}
+
+input UserFilter {
+    name: String
+    email: String
+}
+
+
+# Root Query
+
+# Query is for getting data
+type Query {
+    getUsers: [UserOutput]
+    getUserById(id: ID!): UserOutput
+    filterUsers(input: UserFilter!): [UserOutput]
+}
+
+# Mutation is for changing data
+type Mutation {
+    addUser(input: UserInput!): UserOutput
+    deleteUser(id: ID!): UserOutput
+}
