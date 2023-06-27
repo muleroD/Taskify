@@ -4,5 +4,5 @@ CREATE TABLE "user"
     name        VARCHAR(255)        NOT NULL,
     email       VARCHAR(255) UNIQUE NOT NULL,
     password    CHAR(60)            NOT NULL,
-    create_date TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP
+    create_at TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
