@@ -4,6 +4,7 @@ spring:
 
   graphql:
     path: /graphql
+    graphiql.enabled: true
 
   jackson:
     time-zone: America/Sao_Paulo
