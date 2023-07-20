@@ -7,13 +7,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class UserResolver {
-
-    private final UserService userService;
-
-    public UserResolver(UserService userService) {
-        this.userService = userService;
-    }
+public record UserResolver(UserService userService) {
 
     @QueryMapping
     public User getUser(@Argument Long id) {
