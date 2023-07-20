@@ -1,10 +1,16 @@
 spring:
   application:
     name: taskify
+
+  graphql:
+    path: /graphql
+
   jackson:
     time-zone: America/Sao_Paulo
+
   datasource:
     url: jdbc:postgresql://localhost:5432/task_manager
     username: taskify
     password: yS510d1OM
 
+logging.level.org.springframework.web: TRACE
