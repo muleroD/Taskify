@@ -3,14 +3,14 @@ type User {
     name: String!
     email: String!
     password: String!
-    create_date: String!
+    createAt: String!
 }
 
 type UserOutput {
     id: ID!
     name: String!
     email: String!
-    create_date: String!
+    createAt: String!
 }
 
 input UserInput {
