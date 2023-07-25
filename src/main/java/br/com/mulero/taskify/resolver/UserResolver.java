@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 public record UserResolver(UserService userService) {
 
     @QueryMapping
-    public User getUser(@Argument Long id) {
+    public User getUserById(@Argument Long id) {
         return userService.getUserById(id);
     }
 }
