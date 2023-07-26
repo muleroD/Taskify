@@ -2,7 +2,7 @@
 FROM postgres:latest
 
 # Copia os scripts para o diretório de scripts da imagem do PostgreSQL
-COPY ./scripts /docker-entrypoint-initdb.d/
+COPY scripts /docker-entrypoint-initdb.d/
 
 # Define uma variável de ambiente para configurar o PostgreSQL
 ENV POSTGRES_DB task_manager
