@@ -1,4 +1,4 @@
-package br.com.mulero.taskify.projection;
+package br.com.mulero.taskify.graphql.projection;
 
 import org.springframework.data.web.ProjectedPayload;
 

@@ -1,7 +1,7 @@
 package br.com.mulero.taskify.domain.repository;
 
 import br.com.mulero.taskify.domain.model.User;
-import br.com.mulero.taskify.projection.UserFilter;
+import br.com.mulero.taskify.graphql.projection.UserFilter;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

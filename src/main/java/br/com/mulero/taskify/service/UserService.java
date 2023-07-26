@@ -2,7 +2,7 @@ package br.com.mulero.taskify.service;
 
 import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.domain.repository.UserRepository;
-import br.com.mulero.taskify.projection.UserFilter;
+import br.com.mulero.taskify.graphql.projection.UserFilter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public record UserService(UserRepository userRepository) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 
-    public List<User> filterUsers(UserFilter filter) {
+    public List<User> getUsersByFilter(UserFilter filter) {
         return userRepository.findAllByFilter(filter);
     }
 }
