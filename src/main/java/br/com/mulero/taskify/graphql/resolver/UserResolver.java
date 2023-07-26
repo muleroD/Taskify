@@ -33,4 +33,9 @@ public record UserResolver(UserService userService) {
     public User addUser(@Argument("input") UserInput userInput) {
         return userService.addUser(userInput);
     }
+
+    @MutationMapping
+    public User deleteUser(@Argument Long id) {
+        return userService.deleteUser(id);
+    }
 }

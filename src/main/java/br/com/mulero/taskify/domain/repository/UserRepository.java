@@ -13,4 +13,10 @@ public interface UserRepository extends BaseRepository<User, Long> {
         User user = new User(filter.getName(), filter.getEmail());
         return findAll(createExample(user));
     }
+
+    default User findAndDeleteById(Long id) {
+        User user = findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        delete(user);
+        return user;
+    }
 }
