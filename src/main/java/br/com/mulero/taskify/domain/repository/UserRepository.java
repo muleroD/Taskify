@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends BaseRepository<User, Long> {
 
-    default List<User> findUsersByFilter(UserFilter filter) {
+    default List<User> findAllByFilter(UserFilter filter) {
         User user = new User(filter.getName(), filter.getEmail());
         return findAll(createExample(user));
     }

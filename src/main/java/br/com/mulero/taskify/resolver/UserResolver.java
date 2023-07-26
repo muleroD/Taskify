@@ -23,7 +23,7 @@ public record UserResolver(UserService userService) {
     }
 
     @QueryMapping
-    public List<User> filterUsers(@Argument("input") UserFilter filter) {
+    public List<User> getUsersByFilter(@Argument("input") UserFilter filter) {
         return userService.filterUsers(filter);
     }
 }

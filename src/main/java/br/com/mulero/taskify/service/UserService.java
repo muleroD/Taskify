@@ -19,6 +19,6 @@ public record UserService(UserRepository userRepository) {
     }
 
     public List<User> filterUsers(UserFilter filter) {
-        return userRepository.findUsersByFilter(filter);
+        return userRepository.findAllByFilter(filter);
     }
 }

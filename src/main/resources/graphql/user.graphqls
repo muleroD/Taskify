@@ -29,7 +29,7 @@ input UserFilter {
 type Query {
     getUsers: [UserOutput]
     getUserById(id: ID!): UserOutput
-    filterUsers(input: UserFilter!): [UserOutput]
+    getUsersByFilter(input: UserFilter!): [UserOutput]
 }
 
 # Mutation is for changing data
