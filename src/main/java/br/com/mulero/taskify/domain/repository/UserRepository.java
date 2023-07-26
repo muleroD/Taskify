@@ -1,10 +1,16 @@
 package br.com.mulero.taskify.domain.repository;
 
 import br.com.mulero.taskify.domain.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import br.com.mulero.taskify.projection.UserFilter;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends BaseRepository<User, Long> {
+
+    default List<User> findUsersByFilter(UserFilter filter) {
+        User user = new User(filter.getName(), filter.getEmail());
+        return findAll(createExample(user));
+    }
 }
