@@ -31,8 +31,6 @@ public record UserResolver(UserService userService) {
 
     @MutationMapping
     public User addUser(@Argument("input") UserInput userInput) {
-        System.out.println(userInput);
-        return null;
-//        return userService.createUser(userInput);
+        return userService.addUser(userInput);
     }
 }

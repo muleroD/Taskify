@@ -3,6 +3,7 @@ package br.com.mulero.taskify.service;
 import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.domain.repository.UserRepository;
 import br.com.mulero.taskify.graphql.projection.UserFilter;
+import br.com.mulero.taskify.graphql.types.UserInput;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,5 +21,9 @@ public record UserService(UserRepository userRepository) {
 
     public List<User> getUsersByFilter(UserFilter filter) {
         return userRepository.findAllByFilter(filter);
+    }
+
+    public User addUser(UserInput userInput) {
+        return userRepository.save(new User(userInput.name(), userInput.email(), userInput.password()));
     }
 }

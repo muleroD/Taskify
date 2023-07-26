@@ -1,15 +1,16 @@
 package br.com.mulero.taskify.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -21,8 +22,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "create_at", nullable = false)
-    private String createAt;
+    @Column(name = "created_at", insertable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public User() {
     }
@@ -32,12 +34,15 @@ public class User {
         this.email = email;
     }
 
-    public User(Long id, String name, String email, String password, String createAt) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+    public User(String name, String email, String password) {
+        this(name, email);
         this.password = password;
-        this.createAt = createAt;
+    }
+
+    public User(Long id, String name, String email, String password, LocalDateTime createdAt) {
+        this(name, email, password);
+        this.id = id;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -72,11 +77,11 @@ public class User {
         this.password = password;
     }
 
-    public String getCreateAt() {
-        return createAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
