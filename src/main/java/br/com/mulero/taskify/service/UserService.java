@@ -15,10 +15,10 @@ public record UserService(UserRepository userRepository) {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 
     public List<User> filterUsers(UserFilter filter) {
-        return null;
+        return userRepository.findUsersByFilter(filter);
     }
 }
