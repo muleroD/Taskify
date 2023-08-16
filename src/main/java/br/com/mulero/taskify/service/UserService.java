@@ -4,6 +4,7 @@ import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.domain.repository.UserRepository;
 import br.com.mulero.taskify.graphql.projection.UserFilter;
 import br.com.mulero.taskify.graphql.types.UserInput;
+import graphql.GraphqlErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public record UserService(UserRepository userRepository) {
         user.setEmail(userInput.email());
 
         if (userRepository.exists(user.toExample()))
-            throw new RuntimeException("Usuário já cadastrado");
+            throw new GraphqlErrorException.Builder().message("Usuário já cadastrado").build();
 
         user.setName(userInput.name());
         user.setPassword(userInput.password());
