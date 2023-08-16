@@ -19,7 +19,7 @@ public record UserService(UserRepository userRepository) {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseGet(() -> {
-            log.error("Usuário não encontrado com o id: {}", id);
+            log.info("Usuário não encontrado com o id: {}", id);
             return null;
         });
     }
@@ -29,7 +29,16 @@ public record UserService(UserRepository userRepository) {
     }
 
     public User addUser(UserInput userInput) {
-        return userRepository.save(new User(userInput.name(), userInput.email(), userInput.password()));
+        User user = new User();
+        user.setEmail(userInput.email());
+
+        if (userRepository.exists(user))
+            throw new RuntimeException("Usuário já cadastrado");
+
+        user.setName(userInput.name());
+        user.setPassword(userInput.password());
+
+        return userRepository.save(user);
     }
 
     public User deleteUser(Long id) {

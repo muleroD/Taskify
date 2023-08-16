@@ -5,9 +5,14 @@ import br.com.mulero.taskify.graphql.projection.UserFilter;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends BaseRepository<User, Long> {
+
+    default boolean exists(User user) {
+        return exists(createExample(user));
+    }
 
     default List<User> findAllByFilter(UserFilter filter) {
         User user = new User(filter.getName(), filter.getEmail());
