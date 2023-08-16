@@ -2,6 +2,7 @@ package br.com.mulero.taskify.domain.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -36,7 +37,7 @@ public class User {
 
     public User(String name, String email, String password) {
         this(name, email);
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     public User(Long id, String name, String email, String password, LocalDateTime createdAt) {
