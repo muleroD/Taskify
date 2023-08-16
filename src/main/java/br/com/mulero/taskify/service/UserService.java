@@ -32,7 +32,7 @@ public record UserService(UserRepository userRepository) {
         User user = new User();
         user.setEmail(userInput.email());
 
-        if (userRepository.exists(user))
+        if (userRepository.exists(user.toExample()))
             throw new RuntimeException("Usuário já cadastrado");
 
         user.setName(userInput.name());

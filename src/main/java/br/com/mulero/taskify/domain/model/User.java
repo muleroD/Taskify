@@ -1,7 +1,9 @@
 package br.com.mulero.taskify.domain.model;
 
+import br.com.mulero.taskify.domain.repository.BaseRepository;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -84,5 +86,9 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Example<User> toExample() {
+        return Example.of(this, BaseRepository.getExampleMatcher());
     }
 }

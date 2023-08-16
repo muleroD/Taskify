@@ -9,7 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface BaseRepository<E, I> extends JpaRepository<E, I>, JpaSpecificationExecutor<E> {
 
-    default ExampleMatcher getExampleMatcher() {
+    static ExampleMatcher getExampleMatcher() {
         return ExampleMatcher.matching()
                 .withIgnoreCase()
                 .withIgnoreNullValues()
