@@ -14,6 +14,17 @@ spring:
     username: taskify
     password: yS510d1OM
 
-  jpa.properties.hibernate.default_schema: public
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
 
-logging.level.org.springframework.web: INFO
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+
+br.com.mulero.taskify:
+  security:
+    jwtSecret: ${JWT_SECRET:Xv?ZZGF8*x_?X29R}
