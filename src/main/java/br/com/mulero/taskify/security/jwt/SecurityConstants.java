@@ -11,7 +11,7 @@ public class SecurityConstants {
     public static final String ISSUER = "br.com.mulero.taskify";
     public static final String AUTHORIZATION_TYPE = "Bearer";
     public static String JWT_SECRET;
-    public static final long EXPIRATION_TIME = 86400000; // 1 day
+    public static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours
     public static final String TOKEN_PREFIX = AUTHORIZATION_TYPE + " ";
     public static final String HEADER_TYPE = "Authorization";
     public static final String SIGN_UP_URL = "/api/sign-up";
