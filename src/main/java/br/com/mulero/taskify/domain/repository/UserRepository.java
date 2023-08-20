@@ -6,13 +6,13 @@ import graphql.GraphqlErrorException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends BaseRepository<User, Long> {
 
     default List<User> findAllByFilter(UserFilter filter) {
-        User user = new User(filter.getName(), filter.getEmail());
-        return findAll(createExample(user));
+        return findAll(new User(filter.getName(), filter.getEmail()).toExample());
     }
 
     default User findAndDeleteById(Long id) {
@@ -22,4 +22,6 @@ public interface UserRepository extends BaseRepository<User, Long> {
         delete(user);
         return user;
     }
+
+    Optional<User> findByEmail(String email);
 }

@@ -2,14 +2,21 @@ package br.com.mulero.taskify.domain.model;
 
 import br.com.mulero.taskify.domain.repository.BaseRepository;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -25,12 +32,15 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    public User() {
-    }
 
     public User(String name, String email) {
         this.name = name;
@@ -42,50 +52,8 @@ public class User {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 
-    public User(Long id, String name, String email, String password, LocalDateTime createdAt) {
-        this(name, email, password);
-        this.id = id;
-        this.createdAt = createdAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Example<User> toExample() {
