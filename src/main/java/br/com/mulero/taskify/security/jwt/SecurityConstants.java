@@ -8,6 +8,7 @@ public class SecurityConstants {
         throw new IllegalStateException("Utility class");
     }
 
+    public static final String ISSUER = "br.com.mulero.taskify";
     public static final String AUTHORIZATION_TYPE = "Bearer";
     public static String JWT_SECRET;
     public static final long EXPIRATION_TIME = 86400000; // 1 day
