@@ -12,14 +12,17 @@ public class JwtService {
 
     public static final Algorithm ALGORITHM = Algorithm.HMAC256(SecurityConstants.JWT_SECRET);
 
+    public static final String USERNAME = "username";
+    public static final String ROLES = "roles";
+
     public String createToken(String username, List<String> roles) {
         return JWT.create()
                 .withIssuer(SecurityConstants.ISSUER)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .withJWTId(UUID.randomUUID().toString())
-                .withClaim("username", username)
-                .withClaim("roles", roles)
+                .withClaim(USERNAME, username)
+                .withClaim(ROLES, roles)
                 .sign(ALGORITHM);
     }
 
