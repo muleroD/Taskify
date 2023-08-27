@@ -1,37 +1,51 @@
 package br.com.mulero.taskify.security;
 
 import br.com.mulero.taskify.security.filter.AuthenticationFilter;
-import br.com.mulero.taskify.security.filter.AuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.mulero.taskify.security.jwt.SecurityConstants;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.SecurityConfigurer;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig implements SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity> {
+public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsServiceImpl detailsService;
+    private final UserDetailsServiceImpl detailsService;
 
-    @Override
-    public void init(HttpSecurity http) {
-
+    public SecurityConfig(UserDetailsServiceImpl detailsService) {
+        this.detailsService = detailsService;
     }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                        .anyRequest().authenticated())
-                .addFilterBefore(new AuthenticationFilter("/api/login", http.getSharedObject(AuthenticationManager.class), detailsService),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(detailsService);
+        provider.setPasswordEncoder(new BCryptPasswordEncoder());
 
+        return provider::authenticate;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable).httpBasic(withDefaults())
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(SecurityConstants.LOGIN_URL).permitAll()
+                        .requestMatchers(SecurityConstants.REGISTER_URL).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(new AuthenticationFilter(authenticationManager(), detailsService),
+                        UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 }
