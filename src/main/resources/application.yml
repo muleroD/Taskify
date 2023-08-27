@@ -21,6 +21,9 @@ spring:
         default_schema: public
         format_sql: true
 
+  security:
+    secret: "Xv?ZZGF8*x_?X29R"
+
 logging:
   level:
     org:
@@ -33,7 +36,3 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
-
-br.com.mulero.taskify:
-  security:
-    jwtSecret: ${JWT_SECRET:Xv?ZZGF8*x_?X29R}

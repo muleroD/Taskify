@@ -1,7 +1,7 @@
 package br.com.mulero.taskify.security.filter;
 
+import br.com.mulero.taskify.infrastructure.exception.NotFoundException;
 import br.com.mulero.taskify.rest.request.LoginRequest;
-import br.com.mulero.taskify.security.UserDetailsServiceImpl;
 import br.com.mulero.taskify.security.jwt.JwtProvider;
 import br.com.mulero.taskify.security.jwt.SecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,23 +15,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final UserDetailsServiceImpl userDetailsService;
-
-    public AuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
         super(new AntPathRequestMatcher(SecurityConstants.LOGIN_URL, HttpMethod.POST.name()), authenticationManager);
-        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -48,10 +46,13 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
-        String username = (String) authResult.getPrincipal();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        User authenticatedUser = (User) authResult.getPrincipal();
+        String credencial = authResult.getCredentials().toString();
 
-        String token = new JwtProvider().createToken(username, (List<GrantedAuthority>) userDetails.getAuthorities());
+        if (!new BCryptPasswordEncoder().matches(credencial, authenticatedUser.getPassword()))
+            throw new NotFoundException("Usuário não encontrado");
+
+        String token = new JwtProvider().createToken(authenticatedUser.getUsername(), (Set<GrantedAuthority>) authenticatedUser.getAuthorities());
 
         res.setHeader(SecurityConstants.HEADER_TYPE, token);
         chain.doFilter(req, res);

@@ -6,7 +6,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class JwtProvider {
@@ -16,14 +16,14 @@ public class JwtProvider {
     public static final String USERNAME = "username";
     public static final String ROLES = "roles";
 
-    public String createToken(String username, List<GrantedAuthority> roles) {
+    public String createToken(String username, Set<GrantedAuthority> roles) {
         return JWT.create()
                 .withIssuer(SecurityConstants.ISSUER)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .withJWTId(UUID.randomUUID().toString())
                 .withClaim(USERNAME, username)
-                .withClaim(ROLES, roles)
+                .withClaim(ROLES, roles.stream().map(GrantedAuthority::getAuthority).toList())
                 .sign(ALGORITHM);
     }
 

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

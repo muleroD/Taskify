@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(SecurityConstants.REGISTER_URL).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(new AuthenticationFilter(authenticationManager(), detailsService),
+                .addFilterBefore(new AuthenticationFilter(authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

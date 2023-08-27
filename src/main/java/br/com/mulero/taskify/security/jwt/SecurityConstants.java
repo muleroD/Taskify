@@ -17,7 +17,7 @@ public class SecurityConstants {
     public static final String REGISTER_URL = "/api/register"; // Endpoint de cadastro de usuário
     public static final String LOGIN_URL = "/api/login"; // Endpoint de login de usuário
 
-    @Value("${br.com.mulero.taskify.security.jwtSecret}")
+    @Value("${spring.security.secret}")
     public static void setJwtSecret(String jwtSecret) {
         JWT_SECRET = jwtSecret;
     }
