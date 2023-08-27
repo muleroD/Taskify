@@ -40,7 +40,7 @@ public class TaskifyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(Exception e, WebRequest request) {
-        log.error(e.getMessage(), e);
+        log.error("Erro não mapeado", e);
         return buildApiError(e, request, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
