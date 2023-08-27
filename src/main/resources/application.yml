@@ -15,9 +15,11 @@ spring:
     password: yS510d1OM
 
   jpa:
+    show-sql: false
     properties:
       hibernate:
         default_schema: public
+        format_sql: true
 
 logging:
   level:
@@ -26,6 +28,11 @@ logging:
         web: INFO
         security: INFO
         data: INFO
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 
 br.com.mulero.taskify:
   security:
