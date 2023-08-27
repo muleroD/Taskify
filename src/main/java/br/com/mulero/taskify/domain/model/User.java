@@ -2,16 +2,17 @@ package br.com.mulero.taskify.domain.model;
 
 import br.com.mulero.taskify.domain.repository.BaseRepository;
 import br.com.mulero.taskify.rest.dto.UserDTO;
+import br.com.mulero.taskify.rest.enumerator.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -33,11 +34,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     @CreationTimestamp

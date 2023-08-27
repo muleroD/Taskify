@@ -1,6 +1,5 @@
 package br.com.mulero.taskify.security;
 
-import br.com.mulero.taskify.domain.model.Role;
 import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.domain.repository.UserRepository;
 import org.hibernate.Hibernate;
@@ -18,12 +17,11 @@ public record UserDetailsServiceImpl(UserRepository userRepository) implements U
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-        Hibernate.initialize(user.getRoles());
 
         return builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
+                .roles(user.getRole().name())
                 .build();
     }
 }
