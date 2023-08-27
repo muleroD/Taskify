@@ -3,7 +3,6 @@ package br.com.mulero.taskify.graphql.resolver;
 import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.graphql.projection.UserFilter;
 import br.com.mulero.taskify.service.UserService;
-import br.com.mulero.taskify.graphql.types.UserInput;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -27,11 +26,6 @@ public record UserResolver(UserService userService) {
     @QueryMapping
     public List<User> getUsersByFilter(@Argument("input") UserFilter filter) {
         return userService.getUsersByFilter(filter);
-    }
-
-    @MutationMapping
-    public User addUser(@Argument("input") UserInput userInput) {
-        return userService.addUser(userInput);
     }
 
     @MutationMapping
