@@ -1,6 +1,7 @@
 package br.com.mulero.taskify.domain.model;
 
 import br.com.mulero.taskify.domain.repository.BaseRepository;
+import br.com.mulero.taskify.rest.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -58,5 +59,9 @@ public class User {
 
     public Example<User> toExample() {
         return Example.of(this, BaseRepository.getExampleMatcher());
+    }
+
+    public UserDTO toDTO() {
+        return new UserDTO(id, name, email);
     }
 }
