@@ -5,11 +5,13 @@ import br.com.mulero.taskify.infrastructure.exception.UserAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
@@ -17,32 +19,38 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class TaskifyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
-        return ResponseEntity.badRequest().body(buildApiError(e, HttpStatus.NOT_FOUND));
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException e, WebRequest request) {
+        return buildApiError(e, request, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(UserAlreadyExistException e) {
-        return ResponseEntity.badRequest().body(buildApiError(e, HttpStatus.BAD_REQUEST));
+    public ResponseEntity<Object> handleUserAlreadyExistException(UserAlreadyExistException e, WebRequest request) {
+        return buildApiError(e, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        return ResponseEntity.badRequest().body(buildApiError(e, HttpStatus.BAD_REQUEST));
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e, WebRequest request) {
+        return buildApiError(e, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidDataAccessResourceUsageException(InvalidDataAccessResourceUsageException e) {
-        return ResponseEntity.badRequest().body(buildApiError(e, HttpStatus.BAD_REQUEST));
+    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(InvalidDataAccessResourceUsageException e, WebRequest request) {
+        return buildApiError(e, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+    public ResponseEntity<Object> handleGenericException(Exception e, WebRequest request) {
         log.error(e.getMessage(), e);
-        return ResponseEntity.badRequest().body(buildApiError(e, HttpStatus.INTERNAL_SERVER_ERROR));
+        return buildApiError(e, request, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ErrorResponse buildApiError(Exception ex, HttpStatus status) {
-        return ErrorResponse.create(ex, status, ex.getMessage());
+    private ResponseEntity<Object> buildApiError(Exception e, WebRequest request, HttpStatus httpStatus) {
+        return buildApiError(e, request, httpStatus, new HttpHeaders());
     }
+
+    private ResponseEntity<Object> buildApiError(Exception ex, WebRequest request, HttpStatus status, HttpHeaders headers) {
+        ProblemDetail body = this.createProblemDetail(ex, status, ex.getMessage(), null, null, request);
+        return this.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
 }

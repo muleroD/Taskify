@@ -18,7 +18,6 @@ public record UserService(UserRepository userRepository) {
 
     public static final String USER_NOT_FOUND = "Usuário não encontrado com o id: {}";
     public static final String USER_ALREADY_EXISTS = "Usuário já cadastrado";
-    public static final String ROLE_NOT_FOUND = "Perfil não encontrado";
 
     public List<User> getUsers() {
         return userRepository.findAll();
