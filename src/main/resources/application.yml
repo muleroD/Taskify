@@ -21,9 +21,6 @@ spring:
         default_schema: public
         format_sql: true
 
-  security:
-    secret: "Xv?ZZGF8*x_?X29R"
-
 logging:
   level:
     org:
