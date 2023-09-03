@@ -1,6 +1,7 @@
 package br.com.mulero.taskify.security;
 
 import br.com.mulero.taskify.security.filter.AuthenticationFilter;
+import br.com.mulero.taskify.security.filter.AuthorizationFilter;
 import br.com.mulero.taskify.security.jwt.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +46,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new AuthenticationFilter(authenticationManager(), new JwtProvider()),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthorizationFilter(new JwtProvider()), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

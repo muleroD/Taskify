@@ -2,12 +2,15 @@ package br.com.mulero.taskify.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class JwtProvider {
 
@@ -33,11 +36,21 @@ public class JwtProvider {
                 .verify(token);
     }
 
-    public boolean isTokenValid(String token) {
+    public boolean isValid(String token) {
         return !decodeToken(token).getExpiresAt().before(new Date());
     }
 
+    public Claim getClaim(String jwtToken, String claim) {
+        return decodeToken(jwtToken).getClaim(claim);
+    }
+
     public String getUsername(String jwtToken) {
-        return decodeToken(jwtToken).getClaim(USERNAME).asString();
+        return getClaim(jwtToken, USERNAME).asString();
+    }
+
+    public Set<GrantedAuthority> getRoles(String jwtToken) {
+        return getClaim(jwtToken, ROLES).asList(String.class).stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 }
