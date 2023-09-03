@@ -11,7 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import static br.com.mulero.taskify.security.jwt.SecurityConstants.REGISTER_URL;
 
 @RestController
-public record AuthenticationController(UserService userService) {
+public class AuthenticationController {
+
+    private final UserService userService;
+
+    public AuthenticationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping(REGISTER_URL)
     public ResponseEntity<UserDTO> register(@RequestBody RegisterRequest registerRequest) {
