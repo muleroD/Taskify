@@ -2,53 +2,113 @@
 
 Este arquivo é usado para acompanhar o andamento das etapas sendo finalizadas no projeto.
 
-## Configurações Iniciais
+## Etapas Iniciais
 
-- [x] Configuração do projeto com Spring Initializr
-- [x] Definição das dependências e versões
-- [X] Configuração do banco de dados (PostgreSQL)
-- [X] Mapeamento das entidades e relacionamentos (JPA)
-- [X] Implementação das classes de repositório (DAO)
+- [x] Criar a estrutura básica do projeto usando o Spring Initializr.
+- [x] Configurar o projeto com Java 17.
+- [x] Escolher o sistema de build Maven.
+- [x] Definir as dependências iniciais, incluindo Spring Boot 3.1.1 e outras necessárias.
+- [x] Configurar o projeto no GitHub.
+- [x] Escolher a Licença MIT para o projeto.
 
-## Fluxos de Negócio e Etapas
+## Configuração do Banco de Dados
 
-### Autenticação de Usuários
+- [x] Selecionar o banco de dados PostgreSQL para uso.
+- [x] Criar o Dockerfile para configurar o banco de dados PostgreSQL em um contêiner Docker.
+- [x] Definir as configurações de conexão com o banco de dados no arquivo de propriedades do Spring.
+- [x] Gerar os scripts SQL para a criação das tabelas de banco de dados.
 
-- [ ] Os usuários podem se registrar e fazer login no sistema.
-- [ ] O sistema deve verificar as credenciais do usuário e fornecer um token de autenticação válido para
-  acessar recursos protegidos.
+## GraphQL
+
+- [x] Configurar a camada GraphQL no projeto.
+- [x] Definir os tipos GraphQL, incluindo User e Query.
+- [x] Implementar consultas e mutações GraphQL para os usuários.
+- [x] Implementar tratamento de erros para consultas GraphQL.
+- [x] Documentar as consultas e mutações GraphQL.
+
+## Autenticação e Autorização
+
+- [x] Implementar o filtro de autenticação JWT.
+- [x] Implementar o filtro de autorização JWT para proteger recursos.
+- [ ] Definir roles e permissões para os usuários.
+- [ ] Implementar autorização baseada em roles.
+
+## Gerenciamento de usuário
+
+### Registro de Usuário
+
+- **Status**: Concluído
+- **Descrição**: Implementação do sistema de registro de usuários.
+- **Tarefas completas**:
+    - [x] Acesso à página de registro.
+    - [X] Preenchimento do formulário de registro.
+    - [X] Verificação e validação das informações pelos sistemas.
+    - [X] Criação de nova conta de usuário.
+
+### Login de Usuário
+
+- **Status**: Concluído
+- **Descrição**: Implementação do sistema de login de usuários.
+- **Tarefas completas**:
+    - [x] Acesso à página de login.
+    - [X] Preenchimento do formulário de login.
+    - [x] Criar o endpoint de login para autenticação de usuários.
+    - [X] Verificação de credenciais válidas pelo sistema.
+    - [X] Geração de token de autenticação.
+
+### Recuperação de Senha
+
+- **Status**: Não iniciado
+- **Descrição**: Implementação de funcionalidade de recuperação de senha.
+
+### Perfil de Usuário
+
+- **Status**: Não iniciado
+- **Descrição**: Implementação de visualização e edição de perfil de usuário.
+
+### Logout de Usuário
+
+- **Status**: Não iniciado
+- **Descrição**: Implementação do sistema de logout.
+
+## Gerenciamento de Projetos
+
+### Criação de Projeto
+
+- **Status**: Não iniciado
+- **Descrição**: Implementação do fluxo de criação de projetos para usuários autenticados.
+- **Tarefas completas**:
+    - [ ] Acesso à página de criação de projeto.
+    - [ ] Preenchimento de formulário com informações do projeto.
+    - [ ] Adição de membros da equipe ao projeto.
+    - [ ] Criação do projeto e redirecionamento para a página de detalhes.
 
 ### Gerenciamento de Projetos
 
-- [ ] Os usuários podem criar projetos e atribuí-los a uma equipe.
-- [ ] Os projetos podem ter informações como título, descrição e prazo.
-- [ ] Os usuários podem adicionar membros da equipe aos projetos.
+- **Status**: Não iniciado
+- **Descrição**: Desenvolvimento das funcionalidades de gerenciamento de projetos.
+- **Tarefas completas**:
+    - [ ] Visualização da lista de projetos do usuário.
+    - [ ] Seleção e visualização de detalhes do projeto.
+    - [ ] Adição e remoção de membros da equipe.
+    - [ ] Salvamento de alterações.
 
-### Gerenciamento de Tarefas
+### Visualização de Projetos
 
-- [ ] Os usuários podem criar tarefas e atribuí-las a um projeto.
-- [ ] As tarefas podem ter informações como título, descrição, prazo e status.
-- [ ] Os usuários podem adicionar membros da equipe às tarefas.
-- [ ] Os usuários podem alterar o status de uma tarefa. Os status podem ser `TODO`, `IN_PROGRESS` e `DONE`.
-- [ ] Os usuários podem visualizar todas as tarefas atribuídas a eles ou a um projeto específico.
+- **Status**: Não iniciado
+- **Descrição**: Implementação das funcionalidades de visualização de projetos acessíveis ao usuário.
 
-### Comentários e Notificações
+### Colaboração em Projetos
 
-- [ ] Os usuários podem comentar em tarefas.
-- [ ] Os usuários podem receber notificações quando um novo comentário for adicionado a uma tarefa.
-- [ ] Os usuários podem receber notificações quando uma tarefa for atribuída a eles.
+- **Status**: Não iniciado
+- **Descrição**: Adição de funcionalidades para colaboração em projetos, incluindo a criação de tarefas.
 
-### Relatórios e Estatísticas
+### Atualização de Status de Tarefas
 
-- [ ] Os usuários podem gerar relatórios sobre o andamento do projeto, como tarefas concluídas,
-  tarefas pendentes e membros da equipe mais produtivos.
-- [ ] Os usuários podem visualizar estatísticas sobre o andamento do projeto, como o número de tarefas
-  concluídas, o número de tarefas pendentes e o número de membros da equipe mais produtivos.
+- **Status**: Não iniciado
+- **Descrição**: Habilitar a atualização do status das tarefas nos projetos.
 
-## Contribuição
+### Comentários em Projetos
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma solicitação de pull ou relatar problemas.
-
-## Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
+- **Status**: Não iniciado
+- **Descrição**: Desenvolvimento de funcionalidades para adicionar comentários aos projetos e tarefas.
