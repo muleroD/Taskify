@@ -3,8 +3,10 @@ package br.com.mulero.taskify.domain.model;
 import br.com.mulero.taskify.domain.repository.BaseRepository;
 import br.com.mulero.taskify.rest.dto.UserDTO;
 import br.com.mulero.taskify.rest.enumerator.Role;
+import br.com.mulero.taskify.rest.enumerator.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +27,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -34,20 +38,26 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public User(String name, String email) {
-        this.name = name;
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
+
+    public User(String email) {
         this.email = email;
     }
 
-    public User(String name, String email, String password) {
-        this(name, email);
+    public User(String email, String password) {
+        this(email);
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 
@@ -60,6 +70,6 @@ public class User {
     }
 
     public UserDTO toDTO() {
-        return new UserDTO(id, name, email);
+        return new UserDTO(id, email);
     }
 }

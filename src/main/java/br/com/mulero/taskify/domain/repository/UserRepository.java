@@ -1,5 +1,6 @@
 package br.com.mulero.taskify.domain.repository;
 
+import br.com.mulero.taskify.domain.model.Profile;
 import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.graphql.projection.UserFilter;
 import graphql.GraphqlErrorException;
@@ -12,7 +13,14 @@ import java.util.Optional;
 public interface UserRepository extends BaseRepository<User, Long> {
 
     default List<User> findAllByFilter(UserFilter filter) {
-        return findAll(new User(filter.getName(), filter.getEmail()).toExample());
+        User user = User.builder()
+                .email(filter.getEmail())
+                .profile(Profile.builder().name(filter.getName()).build())
+                .status(filter.getStatus())
+                .role(filter.getRole())
+                .build();
+
+        return findAll(user.toExample());
     }
 
     default User findAndDeleteById(Long id) {
