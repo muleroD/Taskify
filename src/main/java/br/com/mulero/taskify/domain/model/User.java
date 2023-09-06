@@ -70,6 +70,6 @@ public class User {
     }
 
     public UserDTO toDTO() {
-        return new UserDTO(id, email);
+        return new UserDTO(id, profile.getName(), email);
     }
 }
