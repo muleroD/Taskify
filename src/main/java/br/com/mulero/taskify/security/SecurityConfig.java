@@ -14,8 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static br.com.mulero.taskify.security.jwt.SecurityConstants.LOGIN_URL;
-import static br.com.mulero.taskify.security.jwt.SecurityConstants.REGISTER_URL;
+import static br.com.mulero.taskify.security.jwt.SecurityConstants.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -43,6 +42,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(LOGIN_URL, REGISTER_URL).permitAll()
+                        .requestMatchers(GRAPHQL_URL).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new AuthenticationFilter(authenticationManager(), new JwtProvider()),
