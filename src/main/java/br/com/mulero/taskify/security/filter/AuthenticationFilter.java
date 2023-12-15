@@ -1,6 +1,5 @@
 package br.com.mulero.taskify.security.filter;
 
-import br.com.mulero.taskify.rest.request.LoginRequest;
 import br.com.mulero.taskify.security.jwt.JwtProvider;
 import br.com.mulero.taskify.security.jwt.SecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,5 +48,8 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
         res.setHeader(SecurityConstants.HEADER_TYPE, SecurityConstants.TOKEN_PREFIX + token);
 
         res.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    record LoginRequest(String username, String password) {
     }
 }

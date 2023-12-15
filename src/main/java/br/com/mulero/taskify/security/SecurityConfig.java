@@ -41,7 +41,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable).httpBasic(withDefaults())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(LOGIN_URL, REGISTER_URL).permitAll()
+                        .requestMatchers(LOGIN_URL).permitAll()
                         .requestMatchers(GRAPHQL_URL).permitAll()
                         .anyRequest().authenticated()
                 )
