@@ -5,12 +5,11 @@ import br.com.mulero.taskify.domain.model.User;
 import br.com.mulero.taskify.domain.repository.ProfileRepository;
 import br.com.mulero.taskify.domain.repository.UserRepository;
 import br.com.mulero.taskify.graphql.projection.UserFilter;
+import br.com.mulero.taskify.graphql.types.UserInput;
 import br.com.mulero.taskify.infrastructure.exception.UserAlreadyExistException;
-import br.com.mulero.taskify.rest.dto.UserDTO;
+import br.com.mulero.taskify.rest.enumerator.Role;
 import br.com.mulero.taskify.rest.enumerator.Status;
-import br.com.mulero.taskify.rest.request.RegisterRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,26 +46,26 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<UserDTO> registerUser(RegisterRequest newUser) {
+    public User registerUser(UserInput userInput) {
         User user = new User();
-        user.setEmail(newUser.email());
+        user.setEmail(userInput.email());
 
         if (userRepository.exists(user.toExample()))
             throw new UserAlreadyExistException(USER_ALREADY_EXISTS);
 
         Profile profile = Profile.builder()
-                .name(newUser.name())
-                .birthDate(newUser.birthDate())
+                .name(userInput.profile().name())
+                .birthDate(userInput.profile().birthDate())
                 .build();
         profileRepository.save(profile);
 
-        user.setPassword(newUser.password());
-        user.setRole(newUser.role());
+        user.setPassword(userInput.password());
         user.setProfile(profile);
 
-        UserDTO dto = userRepository.save(user).toDTO();
+        userInput.role().ifPresentOrElse(user::setRole, () -> user.setRole(Role.USER));
+        user.setStatus(Status.PENDING);
 
-        return ResponseEntity.ok(dto);
+        return userRepository.save(user);
     }
 
     public User deleteUser(Long id) {

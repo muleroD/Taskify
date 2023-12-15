@@ -1,22 +1,28 @@
 type User {
     id: ID!
-    name: String!
+    profile: Profile!
     email: String!
     password: String!
+    role: String
+    status: String
     createdAt: String!
+    lastLogin: String
+}
+
+input UserInput {
+    email: String!
+    password: String!
+    profile: ProfileInput!
+    role: String
 }
 
 type UserOutput {
     id: ID!
-    name: String!
     email: String!
-    createdAt: String!
-}
-
-input UserInput {
-    name: String!
-    email: String!
-    password: String!
+    profile: ProfileOutput!
+    role: String
+    status: String!
+    lastLogin: String
 }
 
 input UserFilter {
@@ -26,14 +32,14 @@ input UserFilter {
 
 
 # Query is for getting data
-type Query {
+extend type Query {
     getUsers: [UserOutput]
     getUserById(id: ID!): UserOutput
     getUsersByFilter(input: UserFilter!): [UserOutput]
 }
 
 # Mutation is for changing data
-type Mutation {
-    addUser(input: UserInput!): UserOutput
+extend type Mutation {
     deleteUser(id: ID!): UserOutput
+    registerUser(input: UserInput!): UserOutput
 }
